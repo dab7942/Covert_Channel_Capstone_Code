@@ -1,0 +1,61 @@
+function main() {
+	/* Static values for the secret in ascii and binary */
+	var secret = "cursus eget nu"
+	bin_secret = ""
+
+	/* Convert message one character at a time */
+	console.log("Converting message");
+	for (var i = 0; i < secret.length; ++i) {
+		bin_i = secret[i].charCodeAt().toString(2);
+		while (bin_i.length < 7){
+			bin_i = "0" + bin_i;
+		}
+		bin_secret += bin_i;
+	}
+	console.log(bin_secret);
+	while (bin_secret.length > 2) {
+		next_num_bits = bin_secret.slice(0, 3);
+		next_num = parseInt(next_num_bits, 2);
+		console.log(next_num);
+		bin_secret = bin_secret.slice(3);
+	}
+
+}
+
+function not_main() {
+	bin_secret = "1100011111010111100101110011111011111100110100000110010111001111100101111010001000001101110111010100"
+	bin_secret2 = "11000111110101111001011100111110101111001101000001100101110011111001011110100010000011011101110101"
+
+	decode_string = "";
+	while (bin_secret.length > 6) {
+		next_char_bits = bin_secret.slice(0, 7);
+		next_char_code = parseInt(next_char_bits, 2);
+		if (next_char_code < 32) {
+			break;
+		}
+		next_char = String.fromCharCode(next_char_code);
+		decode_string += next_char;
+		bin_secret = bin_secret.slice(7);
+	}
+
+	/* Print out recovered message */
+	console.log(decode_string);
+
+
+	decode_string = "";
+	while (bin_secret2.length > 6) {
+		next_char_bits = bin_secret2.slice(0, 7);
+		next_char_code = parseInt(next_char_bits, 2);
+		if (next_char_code < 32) {
+			break;
+		}
+		next_char = String.fromCharCode(next_char_code);
+		decode_string += next_char;
+		bin_secret2 = bin_secret2.slice(7);
+	}
+
+	/* Print out recovered message */
+	console.log(decode_string);
+}
+
+main()
