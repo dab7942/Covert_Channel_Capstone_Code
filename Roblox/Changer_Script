@@ -1,0 +1,37 @@
+index = 1
+secretString = "11000111110101111001011100111110101111001101000001100101110011111001011110100010000011011101110101"
+
+local touchTable = {}
+
+function setTranBit1(toucher)
+	if toucher.Name == "HumanoidRootPart" then
+		local tableIndex = table.find(touchTable, toucher)
+		if tableIndex ~= nil then return end
+		table.insert(touchTable, toucher)
+		local nextChar = secretString.sub(secretString, index, index)
+		print(nextChar)
+		local cylinders = workspace.Cylinders:GetChildren()
+		for i, cylinder in ipairs(cylinders) do
+			cylinder.Transparency = tonumber(nextChar);
+		end
+		index = index + 1
+	end
+end
+
+function setTranBit0(toucher)
+	if toucher.Name == "HumanoidRootPart" then
+		local tableIndex = table.find(touchTable, toucher)
+		if tableIndex == nil then return end
+		table.remove(touchTable, tableIndex)
+		local cylinders = workspace.Cylinders:GetChildren()
+		for i, cylinder in ipairs(cylinders) do
+			cylinder.Transparency = 0.5;
+		end
+	end
+end
+
+local areas = workspace.Areas:GetChildren()
+for i, area in ipairs(areas) do
+	area.Touched:Connect(setTranBit1)
+	area.TouchEnded:Connect(setTranBit0)
+end
